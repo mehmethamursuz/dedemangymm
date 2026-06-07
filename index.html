@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mehmet'in Proje Ödevi - Dedeman Gym</title>
+    <style>
+        /* Modern & Yenilikçi CSS Tasarımı */
+        :root {
+            --bg-color: #0d0f12;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --neon-color: #ccff00; /* Yenilikçi Fosforlu Sarı/Yeşil */
+            --text-color: #ffffff;
+            --text-gray: #8a8f98;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* Header / Navigasyon */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(13, 15, 18, 0.8);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--neon-color);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--neon-color);
+        }
+
+        /* Üye Paneli Butonu */
+        .member-btn {
+            background: transparent;
+            border: 1px solid var(--neon-color);
+            color: var(--neon-color);
+            padding: 8px 18px;
+            border-radius: 20px;
+            margin-left: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .member-btn:hover {
+            background: var(--neon-color);
+            color: black;
+            box-shadow: 0 0 10px rgba(204, 255, 0, 0.3);
+        }
+
+        /* Hero Bölümü */
+        .hero {
+            height: 75vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            margin-top: 60px;
+            background: radial-gradient(circle at center, rgba(204, 255, 0, 0.05) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+
+        .hero p {
+            color: var(--text-gray);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        /* Ortak Bölüm Tasarımları */
+        section {
+            padding: 80px 8%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .section-title span {
+            color: var(--neon-color);
+        }
+
+        /* Kayıt & Giriş Bölümü (Yenilikçi Form Alanı) */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .auth-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 35px;
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(5px);
+        }
+
+        .auth-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--neon-color);
+            text-align: center;
+        }
+
+        /* Hoş Geldin Paneli */
+        .welcome-box {
+            background: var(--card-bg);
+            border: 1px solid var(--neon-color);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.1);
+            display: none;
+        }
+
+        .welcome-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .welcome-box p {
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+
+        /* Çalışma Programları (Dinamik Tab) */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--neon-color);
+            color: black;
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
+        }
+
+        .program-content {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            display: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .program-content.active {
+            display: block;
+        }
+
+        .workout-list {
+            list-style: none;
+        }
+
+        .workout-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .workout-list li:last-child {
+            border-bottom: none;
+        }
+
+        .exercise-name {
+            font-weight: 600;
+        }
+
+        .exercise-sets {
+            color: var(--neon-color);
+        }
+
+        /* Form Elemanları Ortak Tasarım (VKİ ve Kayıt için) */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-gray);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--neon-color);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .custom-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--neon-color);
+            color: black;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .custom-btn:hover {
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.5);
+        }
+
+        .custom-btn.secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-top: 10px;
+        }
+
+        .custom-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: none;
+        }
+
+        /* VKİ Alanı Sabitleme */
+        .bmi-wrapper {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+            backdrop-filter: blur(5px);
+        }
+
+        .result-box {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        #bmi-status {
+            color: var(--neon-color);
+            display: block;
+            font-size: 1.5rem;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Bölümü -->
+    <header>
+        <div class="logo">DEDEMAN<span>GYM</span></div>
+        <nav>
+            <a href="#uyelik">Kayıt Sistemi</a>
+            <a href="#programlar">Programlar</a>
+            <a href="#vki">VKİ Hesapla</a>
+        </nav>
+    </header>
+
+    <!-- Hero / Giriş Bölümü -->
+    <section class="hero">
+        <h1>MEHMET'İN PROJE ÖDEVİ</h1>
+        <p>Dedeman Gym üye otomasyonu ve interaktif sağlık takip arayüzüne hoş geldiniz.</p>
+    </section>
+
+    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05);">
+
+    <!-- Üyelik / Kayıt ve Giriş Sistemi Bölümü -->
+    <section id="uyelik">
+        <h2 class="section-title">Üye <span>Paneli</span></h2>
+        
+        <!-- Kayıt Formları (Varsayılan olarak görünür) -->
+        <div class="auth-container" id="auth-forms">
+            <!-- Kayıt Ol Formu -->
+            <div class="auth-box">
+                <h3>Kayıt Ol</h3>
+                <div class="input-group">
+                    <label for="reg-name">Ad Soyad</label>
+                    <input type="text" id="reg-name" placeholder="Mehmet Yılmaz">
+                </div>
+                <div class="input-group">
+                    <label for="reg-email">E-posta</label>
+                    <input type="email" id="reg-email" placeholder="mehmet@example.com">
+                </div>
+                <div class="input-group">
+                    <label for="reg-pass">Şifre</label>
+                    <input type="password" id="reg-pass" placeholder="••••••••">
+                </div>
+                <button class="custom-btn" onclick="handleRegister()">Hesap Oluştur</button>
+            </div>
+
+            <!-- Giriş Yap Formu -->
+            <div class="auth-box">
+                <h3>Giriş Yap</h3>
+                <div class="input-group">
+                    <label for="login-email">E-posta Adresi</label>
+                    <input type="email" id="login-email" placeholder="mehmet@example.com">
+                </div>
+                <div class="input-group">
+                    <label for="login-pass">Şifre</label>
+                    <input type="password" id="login-pass" placeholder="••••••••">
+                </div>
+                <button class="custom-btn" onclick="handleLogin()">Giriş Yap</button>
+            </div>
+        </div>
+
+        <!-- Giriş Başarılı Olduğunda Açılacak Panel -->
+        <div class="welcome-box" id="welcome-panel">
+            <h3>Hoş geldin, <span id="user-display-name" style="color: var(--neon-color);">Mehmet</span>! 👋</h3>
+            <p>Dedeman Gym sistemine başarıyla giriş yaptın. Sana özel hazırlanan antrenman programlarına aşağıdan göz atabilirsin.</p>
+            <button class="custom-btn secondary" onclick="handleLogout()">Çıkış Yap</button>
+        </div>
+    </section>
+
+    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05);">
+
+    <!-- Çalışma Programları Bölümü -->
+    <section id="programlar">
+        <h2 class="section-title">Çalışma <span>Programları</span></h2>
+        
+        <div class="tab-container">
+            <button class="tab-btn active" onclick="openProgram('baslangic', this)">Başlangıç</button>
+            <button class="tab-btn" onclick="openProgram('hipertrofi', this)">Kas Geliştirme</button>
+            <button class="tab-btn" onclick="openProgram('guc', this)">Güç (Power)</button>
+        </div>
+
+        <div id="baslangic" class="program-content active">
+            <ul class="workout-list">
+                <li><span class="exercise-name">Goblet Squat</span><span class="exercise-sets">3 Set x 12 Tekrar</span></li>
+                <li><span class="exercise-name">Push-Up (Şınav)</span><span class="exercise-sets">3 Set x 10 Tekrar</span></li>
+                <li><span class="exercise-name">Lat Pulldown</span><span class="exercise-sets">3 Set x 12 Tekrar</span></li>
+                <li><span class="exercise-name">Plank</span><span class="exercise-sets">3 Set x 45 Saniye</span></li>
+            </ul>
+        </div>
+
+        <div id="hipertrofi" class="program-content">
+            <ul class="workout-list">
+                <li><span class="exercise-name">Incline Dumbbell Press</span><span class="exercise-sets">4 Set x 10 Tekrar</span></li>
+                <li><span class="exercise-name">Barbell Row</span><span class="exercise-sets">4 Set x 8 Tekrar</span></li>
+                <li><span class="exercise-name">Leg Press</span><span class="exercise-sets">4 Set x 12 Tekrar</span></li>
+                <li><span class="exercise-name">Biceps Curl & Triceps Pushdown</span><span class="exercise-sets">3 Set x 12 Tekrar</span></li>
+            </ul>
+        </div>
+
+        <div id="guc" class="program-content">
+            <ul class="workout-list">
+                <li><span class="exercise-name">Barbell Squat</span><span class="exercise-sets">5 Set x 5 Tekrar</span></li>
+                <li><span class="exercise-name">Bench Press</span><span class="exercise-sets">5 Set x 5 Tekrar</span></li>
+                <li><span class="exercise-name">Deadlift</span><span class="exercise-sets">3 Set x 5 Tekrar</span></li>
+                <li><span class="exercise-name">Overhead Press</span><span class="exercise-sets">4 Set x 6 Tekrar</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05);">
+
+    <!-- VKİ Hesaplama Bölümü -->
+    <section id="vki">
+        <h2 class="section-title">Vücut Kitle <span>İndeksi</span></h2>
+        
+        <div class="bmi-wrapper">
+            <div class="input-group">
+                <label for="weight">Kilo (kg)</label>
+                <input type="number" id="weight" placeholder="Örn: 70">
+            </div>
+            <div class="input-group">
+                <label for="height">Boy (cm)</label>
+                <input type="number" id="height" placeholder="Örn: 175">
+            </div>
+            <button class="custom-btn" onclick="calculateBMI()">HESAPLA</button>
+
+            <div class="result-box" id="result-box">
+                VKİ Değeriniz: <span id="bmi-value">0</span>
+                <span id="bmi-status">Normal</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Mehmet'in Proje Ödevi | Dedeman Gym. Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <!-- Fonksiyonel JavaScript Kodları -->
+    <script>
+        // Geçici Veri Deposu (Sayfa açık kaldığı sürece kayıt tutar)
+        let registeredUser = null;
+
+        // Kayıt Olma Fonksiyonu
+        function handleRegister() {
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-pass').value;
+
+            if (name === "" || email === "" || pass === "") {
+                alert("Lütfen kayıt için tüm alanları doldurun!");
+                return;
+            }
+
+            // Bilgileri kaydet
+            registeredUser = {
+                name: name,
+                email: email,
+                password: pass
+            };
+
+            alert("Kayıt başarılı! Şimdi yan taraftan giriş yapabilirsiniz.");
+            
+            // Temizlik
+            document.getElementById('reg-name').value = "";
+            document.getElementById('reg-email').value = "";
+            document.getElementById('reg-pass').value = "";
+        }
+
+        // Giriş Yapma Fonksiyonu
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-pass').value;
+
+            if (!registeredUser) {
+                alert("Sistemde kayıtlı kullanıcı bulunamadı! Önce kayıt olun.");
+                return;
+            }
+
+            if (email === registeredUser.email && pass === registeredUser.password) {
+                // Formları gizle, hoş geldin panelini aç
+                document.getElementById('auth-forms').style.display = "none";
+                document.getElementById('user-display-name').innerText = registeredUser.name;
+                document.getElementById('welcome-panel').style.display = "block";
+                
+                // Form kutularını sıfırla
+                document.getElementById('login-email').value = "";
+                document.getElementById('login-pass').value = "";
+            } else {
+                alert("Hatalı e-posta veya şifre!");
+            }
+        }
+
+        // Çıkış Yapma Fonksiyonu
+        function handleLogout() {
+            document.getElementById('welcome-panel').style.display = "none";
+            document.getElementById('auth-forms').style.display = "flex";
+        }
+
+        // Program Değiştirme (Tab) Fonksiyonu
+        function openProgram(programName, elmnt) {
+            var i, programContent, tabLinks;
+            programContent = document.getElementsByClassName("program-content");
+            for (i = 0; i < programContent.length; i++) {
+                programContent[i].style.display = "none";
+            }
+            tabLinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+            }
+            document.getElementById(programName).style.display = "block";
+            elmnt.className += " active";
+        }
+
+        // Vücut Kitle İndeksi Hesaplama Fonksiyonu
+        function calculateBMI() {
+            var weight = document.getElementById('weight').value;
+            var height = document.getElementById('height').value;
+            
+            if (weight > 0 && height > 0) {
+                var heightInMeters = height / 100;
+                var bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
+                
+                document.getElementById('bmi-value').innerText = bmi;
+                
+                var status = "";
+                if (bmi < 18.5) {
+                    status = "Zayıf 🦴";
+                } else if (bmi >= 18.5 && bmi <= 24.9) {
+                    status = "Normal / İdeal 💪";
+                } else if (bmi >= 25 && bmi <= 29.9) {
+                    status = "Fazla Kilolu 🏃‍♂️";
+                } else {
+                    status = "Obez ⚠️";
+                }
+                
+                document.getElementById('bmi-status').innerText = status;
+                document.getElementById('result-box').style.display = "block";
+            } else {
+                alert("Lütfen geçerli boy ve kilo değerleri giriniz!");
+            }
+        }
+    </script>
+</body>
+</html>
