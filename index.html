@@ -69,25 +69,6 @@
             color: var(--neon-color);
         }
 
-        /* Üye Paneli Butonu */
-        .member-btn {
-            background: transparent;
-            border: 1px solid var(--neon-color);
-            color: var(--neon-color);
-            padding: 8px 18px;
-            border-radius: 20px;
-            margin-left: 20px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .member-btn:hover {
-            background: var(--neon-color);
-            color: black;
-            box-shadow: 0 0 10px rgba(204, 255, 0, 0.3);
-        }
-
         /* Hero Bölümü */
         .hero {
             height: 75vh;
@@ -320,30 +301,19 @@
             font-size: 1.5rem;
             margin-top: 5px;
         }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: var(--text-gray);
-            font-size: 0.9rem;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Header Bölümü -->
     <header>
         <div class="logo">DEDEMAN<span>GYM</span></div>
         <nav>
-            <a href="#uyelik">Kayıt Sistemi</a>
+            <a href="#uyelik">Üye Paneli</a>
             <a href="#programlar">Programlar</a>
             <a href="#vki">VKİ Hesapla</a>
         </nav>
     </header>
 
-    <!-- Hero / Giriş Bölümü -->
     <section class="hero">
         <h1>MEHMET'İN PROJE ÖDEVİ</h1>
         <p>Dedeman Gym üye otomasyonu ve interaktif sağlık takip arayüzüne hoş geldiniz.</p>
@@ -351,13 +321,10 @@
 
     <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05);">
 
-    <!-- Üyelik / Kayıt ve Giriş Sistemi Bölümü -->
     <section id="uyelik">
         <h2 class="section-title">Üye <span>Paneli</span></h2>
         
-        <!-- Kayıt Formları (Varsayılan olarak görünür) -->
         <div class="auth-container" id="auth-forms">
-            <!-- Kayıt Ol Formu -->
             <div class="auth-box">
                 <h3>Kayıt Ol</h3>
                 <div class="input-group">
@@ -372,10 +339,9 @@
                     <label for="reg-pass">Şifre</label>
                     <input type="password" id="reg-pass" placeholder="••••••••">
                 </div>
-                <button class="custom-btn" onclick="handleRegister()">Hesap Oluştur</button>
+                <button class="custom-btn" id="btn-register">Hesap Oluştur</button>
             </div>
 
-            <!-- Giriş Yap Formu -->
             <div class="auth-box">
                 <h3>Giriş Yap</h3>
                 <div class="input-group">
@@ -386,21 +352,19 @@
                     <label for="login-pass">Şifre</label>
                     <input type="password" id="login-pass" placeholder="••••••••">
                 </div>
-                <button class="custom-btn" onclick="handleLogin()">Giriş Yap</button>
+                <button class="custom-btn" id="btn-login">Giriş Yap</button>
             </div>
         </div>
 
-        <!-- Giriş Başarılı Olduğunda Açılacak Panel -->
         <div class="welcome-box" id="welcome-panel">
-            <h3>Hoş geldin, <span id="user-display-name" style="color: var(--neon-color);">Mehmet</span>! 👋</h3>
+            <h3>Hoş geldin, <span id="user-display-name" style="color: var(--neon-color);">Kullanıcı</span>! 👋</h3>
             <p>Dedeman Gym sistemine başarıyla giriş yaptın. Sana özel hazırlanan antrenman programlarına aşağıdan göz atabilirsin.</p>
-            <button class="custom-btn secondary" onclick="handleLogout()">Çıkış Yap</button>
+            <button class="custom-btn secondary" id="btn-logout">Çıkış Yap</button>
         </div>
     </section>
 
     <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05);">
 
-    <!-- Çalışma Programları Bölümü -->
     <section id="programlar">
         <h2 class="section-title">Çalışma <span>Programları</span></h2>
         
@@ -440,7 +404,6 @@
 
     <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05);">
 
-    <!-- VKİ Hesaplama Bölümü -->
     <section id="vki">
         <h2 class="section-title">Vücut Kitle <span>İndeksi</span></h2>
         
@@ -462,20 +425,56 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <p>© 2026 Mehmet'in Proje Ödevi | Dedeman Gym. Tüm Hakları Saklıdır.</p>
     </footer>
 
-    <!-- Fonksiyonel JavaScript Kodları -->
-    <script>
-        // Geçici Veri Deposu (Sayfa açık kaldığı sürece kayıt tutar)
-        let registeredUser = null;
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signOut, 
+            updateProfile, 
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // Firebase Yapılandırma Bilgilerin
+        const firebaseConfig = {
+            apiKey: "AIzaSyAEqSROG0MpGgs3kEIO9VHBHHTEqFO8S6U",
+            authDomain: "proje07-859a0.firebaseapp.com",
+            projectId: "proje07-859a0",
+            storageBucket: "proje07-859a0.firebasestorage.app",
+            messagingSenderId: "41684792187",
+            appId: "1:41684792187:web:dbb50c76acff38ee11c3de",
+            measurementId: "G-EVFPR5F5WF"
+        };
+
+        // Firebase & Analytics Başlatılması
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const analytics = getAnalytics(app);
+
+        // Kullanıcı Durumunu Dinle (Oturum açık mı kapalı mı kontrolü)
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Kullanıcı giriş yapmışsa formları gizle, paneli göster
+                document.getElementById('auth-forms').style.display = "none";
+                document.getElementById('user-display-name').innerText = user.displayName || "Üye";
+                document.getElementById('welcome-panel').style.display = "block";
+            } else {
+                // Kullanıcı çıkış yapmışsa paneli gizle, formları göster
+                document.getElementById('welcome-panel').style.display = "none";
+                document.getElementById('auth-forms').style.display = "flex";
+            }
+        });
 
         // Kayıt Olma Fonksiyonu
-        function handleRegister() {
-            const name = document.getElementById('reg-name').value;
-            const email = document.getElementById('reg-email').value;
+        async function handleRegister() {
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
             const pass = document.getElementById('reg-pass').value;
 
             if (name === "" || email === "" || pass === "") {
@@ -483,51 +482,92 @@
                 return;
             }
 
-            // Bilgileri kaydet
-            registeredUser = {
-                name: name,
-                email: email,
-                password: pass
-            };
+            try {
+                // Firebase ile kullanıcı oluşturma
+                const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+                
+                // Kullanıcının profilindeki Ad-Soyad alanını güncelleme
+                await updateProfile(userCredential.user, { displayName: name });
+                
+                // Google Analytics Etkinliği Gönder (Kayıt olanlar için)
+                logEvent(analytics, 'sign_up', { method: 'email' });
 
-            alert("Kayıt başarılı! Şimdi yan taraftan giriş yapabilirsiniz.");
-            
-            // Temizlik
-            document.getElementById('reg-name').value = "";
-            document.getElementById('reg-email').value = "";
-            document.getElementById('reg-pass').value = "";
+                alert("Firebase hesabınız başarıyla oluşturuldu ve giriş yapıldı!");
+                
+                // Form temizliği
+                document.getElementById('reg-name').value = "";
+                document.getElementById('reg-email').value = "";
+                document.getElementById('reg-pass').value = "";
+
+            } catch (error) {
+                console.error(error);
+                alert("Kayıt hatası: " + getFirebaseErrorMessage(error.code));
+            }
         }
 
         // Giriş Yapma Fonksiyonu
-        function handleLogin() {
-            const email = document.getElementById('login-email').value;
+        async function handleLogin() {
+            const email = document.getElementById('login-email').value.trim();
             const pass = document.getElementById('login-pass').value;
 
-            if (!registeredUser) {
-                alert("Sistemde kayıtlı kullanıcı bulunamadı! Önce kayıt olun.");
+            if (email === "" || pass === "") {
+                alert("Lütfen e-posta ve şifre alanlarını doldurun!");
                 return;
             }
 
-            if (email === registeredUser.email && pass === registeredUser.password) {
-                // Formları gizle, hoş geldin panelini aç
-                document.getElementById('auth-forms').style.display = "none";
-                document.getElementById('user-display-name').innerText = registeredUser.name;
-                document.getElementById('welcome-panel').style.display = "block";
+            try {
+                // Firebase ile giriş yapma
+                await signInWithEmailAndPassword(auth, email, pass);
                 
-                // Form kutularını sıfırla
+                // Google Analytics Etkinliği Gönder (Giriş yapanlar için)
+                logEvent(analytics, 'login', { method: 'email' });
+
+                alert("Başarıyla giriş yapıldı!");
+                
                 document.getElementById('login-email').value = "";
                 document.getElementById('login-pass').value = "";
-            } else {
-                alert("Hatalı e-posta veya şifre!");
+
+            } catch (error) {
+                console.error(error);
+                alert("Giriş hatası: " + getFirebaseErrorMessage(error.code));
             }
         }
 
         // Çıkış Yapma Fonksiyonu
-        function handleLogout() {
-            document.getElementById('welcome-panel').style.display = "none";
-            document.getElementById('auth-forms').style.display = "flex";
+        async function handleLogout() {
+            try {
+                await signOut(auth);
+                alert("Oturum kapatıldı.");
+            } catch (error) {
+                alert("Çıkış yapılırken bir hata oluştu.");
+            }
         }
 
+        // Firebase Hata Mesajlarını Türkçeleştirme Yardımcısı
+        function getFirebaseErrorMessage(errorCode) {
+            switch (errorCode) {
+                case 'auth/email-already-in-use':
+                    return 'Bu e-posta adresi zaten kullanımda.';
+                case 'auth/invalid-email':
+                    return 'Geçersiz bir e-posta adresi girdiniz.';
+                case 'auth/weak-password':
+                    return 'Şifre çok zayıf. En az 6 karakter olmalıdır.';
+                case 'auth/missing-password':
+                    return 'Lütfen şifre alanını boş bırakmayın.';
+                case 'auth/invalid-credential':
+                    return 'Hatalı e-posta veya şifre girdiniz.';
+                default:
+                    return 'Bir hata oluştu. Lütfen tekrar deneyin.';
+            }
+        }
+
+        // Butonlara tıklama olaylarını bağlama (Script modül tipinde olduğu için inline onclick çalışmaz)
+        document.getElementById('btn-register').addEventListener('click', handleRegister);
+        document.getElementById('btn-login').addEventListener('click', handleLogin);
+        document.getElementById('btn-logout').addEventListener('click', handleLogout);
+    </script>
+
+    <script>
         // Program Değiştirme (Tab) Fonksiyonu
         function openProgram(programName, elmnt) {
             var i, programContent, tabLinks;
