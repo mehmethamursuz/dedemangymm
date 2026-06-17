@@ -129,4 +129,437 @@
             background: var(--card-bg);
             border: 1px solid var(--neon-color);
             border-radius: 20px;
-            padding: 40px
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.1);
+            display: none;
+        }
+
+        .welcome-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .welcome-box p {
+            color: var(--text-gray);
+            margin-bottom: 20px;
+        }
+
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--neon-color);
+            color: black;
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
+        }
+
+        .program-content {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            display: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .program-content.active {
+            display: block;
+        }
+
+        .workout-list {
+            list-style: none;
+        }
+
+        .workout-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .workout-list li:last-child {
+            border-bottom: none;
+        }
+
+        .exercise-name {
+            font-weight: 600;
+        }
+
+        .exercise-sets {
+            color: var(--neon-color);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-gray);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--neon-color);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .custom-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--neon-color);
+            color: black;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .custom-btn:hover {
+            box-shadow: 0 0 20px rgba(204, 255, 0, 0.5);
+        }
+
+        .custom-btn.secondary {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-top: 10px;
+        }
+
+        .custom-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .bmi-wrapper {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            margin: 0 auto;
+            backdrop-filter: blur(5px);
+        }
+
+        .result-box {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        #bmi-status {
+            color: var(--neon-color);
+            display: block;
+            font-size: 1.5rem;
+            margin-top: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">DEDEMAN<span>GYM</span></div>
+        <nav>
+            <a href="#uyelik">Kayıt Sistemi</a>
+            <a href="#programlar">Programlar</a>
+            <a href="#vki">VKİ Hesapla</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>MEHMET'İN PROJE ÖDEVİ</h1>
+        <p>Realtime Firebase entegrasyonlu üye otomasyonu arayüzü.</p>
+    </section>
+
+    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05);">
+
+    <section id="uyelik">
+        <h2 class="section-title">Üye <span>Paneli</span></h2>
+        
+        <div class="auth-container" id="auth-forms">
+            <div class="auth-box">
+                <h3>Kayıt Ol</h3>
+                <div class="input-group">
+                    <label for="reg-name">Ad Soyad</label>
+                    <input type="text" id="reg-name" placeholder="Mehmet Yılmaz">
+                </div>
+                <div class="input-group">
+                    <label for="reg-email">E-posta</label>
+                    <input type="email" id="reg-email" placeholder="mehmet@example.com">
+                </div>
+                <div class="input-group">
+                    <label for="reg-pass">Şifre</label>
+                    <input type="password" id="reg-pass" placeholder="••••••••">
+                </div>
+                <button class="custom-btn" onclick="handleRegister()">Veri Tabanına Kaydet</button>
+            </div>
+
+            <div class="auth-box">
+                <h3>Giriş Yap</h3>
+                <div class="input-group">
+                    <label for="login-email">E-posta Adresi</label>
+                    <input type="email" id="login-email" placeholder="mehmet@example.com">
+                </div>
+                <div class="input-group">
+                    <label for="login-pass">Şifre</label>
+                    <input type="password" id="login-pass" placeholder="••••••••">
+                </div>
+                <button class="custom-btn" onclick="handleLogin()">Giriş Yap</button>
+            </div>
+        </div>
+
+        <div class="welcome-box" id="welcome-panel">
+            <h3>Hoş geldin, <span id="user-display-name" style="color: var(--neon-color);">Kullanıcı</span>! 👋</h3>
+            <p>Verileriniz Firebase Realtime Database üzerinden başarıyla doğrulandı.</p>
+            <button class="custom-btn secondary" onclick="handleLogout()">Çıkış Yap</button>
+        </div>
+    </section>
+
+    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05);">
+
+    <section id="programlar">
+        <h2 class="section-title">Çalışma <span>Programları</span></h2>
+        
+        <div class="tab-container">
+            <button class="tab-btn active" onclick="openProgram('baslangic', this)">Başlangıç</button>
+            <button class="tab-btn" onclick="openProgram('hipertrofi', this)">Kas Geliştirme</button>
+            <button class="tab-btn" onclick="openProgram('guc', this)">Güç (Power)</button>
+        </div>
+
+        <div id="baslangic" class="program-content active">
+            <ul class="workout-list">
+                <li><span class="exercise-name">Goblet Squat</span><span class="exercise-sets">3 Set x 12 Tekrar</span></li>
+                <li><span class="exercise-name">Push-Up (Şınav)</span><span class="exercise-sets">3 Set x 10 Tekrar</span></li>
+                <li><span class="exercise-name">Lat Pulldown</span><span class="exercise-sets">3 Set x 12 Tekrar</span></li>
+                <li><span class="exercise-name">Plank</span><span class="exercise-sets">3 Set x 45 Saniye</span></li>
+            </ul>
+        </div>
+
+        <div id="hipertrofi" class="program-content">
+            <ul class="workout-list">
+                <li><span class="exercise-name">Incline Dumbbell Press</span><span class="exercise-sets">4 Set x 10 Tekrar</span></li>
+                <li><span class="exercise-name">Barbell Row</span><span class="exercise-sets">4 Set x 8 Tekrar</span></li>
+                <li><span class="exercise-name">Leg Press</span><span class="exercise-sets">4 Set x 12 Tekrar</span></li>
+                <li><span class="exercise-name">Biceps Curl & Triceps Pushdown</span><span class="exercise-sets">3 Set x 12 Tekrar</span></li>
+            </ul>
+        </div>
+
+        <div id="guc" class="program-content">
+            <ul class="workout-list">
+                <li><span class="exercise-name">Barbell Squat</span><span class="exercise-sets">5 Set x 5 Tekrar</span></li>
+                <li><span class="exercise-name">Bench Press</span><span class="exercise-sets">5 Set x 5 Tekrar</span></li>
+                <li><span class="exercise-name">Deadlift</span><span class="exercise-sets">3 Set x 5 Tekrar</span></li>
+                <li><span class="exercise-name">Overhead Press</span><span class="exercise-sets">4 Set x 6 Tekrar</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05);">
+
+    <section id="vki">
+        <h2 class="section-title">Vücut Kitle <span>İndeksi</span></h2>
+        
+        <div class="bmi-wrapper">
+            <div class="input-group">
+                <label for="weight">Kilo (kg)</label>
+                <input type="number" id="weight" placeholder="Örn: 70">
+            </div>
+            <div class="input-group">
+                <label for="height">Boy (cm)</label>
+                <input type="number" id="height" placeholder="Örn: 175">
+            </div>
+            <button class="custom-btn" onclick="calculateBMI()">HESAPLA</button>
+
+            <div class="result-box" id="result-box">
+                VKİ Değeriniz: <span id="bmi-value">0</span>
+                <span id="bmi-status">Normal</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Mehmet Hamursuz | Dedeman Gym. Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAgAfz91sRNHHUC5ik5KxpjY_5eBpZ7p3I",
+            authDomain: "dedemangym.firebaseapp.com",
+            databaseURL: "https://dedemangym-default-rtdb.firebaseio.com",
+            projectId: "dedemangym",
+            storageBucket: "dedemangym.appspot.com",
+            messagingSenderId: "807893588364",
+            appId: "1:807893588364:web:0c9d08fc1ee92ee68b9ea9",
+            measurementId: "G-FQV46100RR"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        
+        // Sitenin çökmesini önlemek için Analytics'i hata korumalı başlatıyoruz
+        let analytics;
+        try {
+            analytics = getAnalytics(app);
+            logEvent(analytics, 'page_view');
+        } catch (e) {
+            console.log("Analytics henüz tam aktif değil, arka planda bekleniyor...");
+        }
+
+        window.handleRegister = function() {
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-pass').value;
+
+            if (name === "" || email === "" || pass === "") {
+                alert("Lütfen tüm alanları doldurun!");
+                return;
+            }
+
+            const cleanEmail = email.replace(/[.#$\[\]]/g, "_");
+
+            set(ref(database, 'users/' + cleanEmail), {
+                username: name,
+                email: email,
+                password: pass
+            }).then(() => {
+                alert("Kullanıcı Firebase Realtime Database'e başarıyla kaydedildi! Giriş yapabilirsiniz.");
+                if(analytics) { logEvent(analytics, 'sign_up', { method: 'Firebase' }); }
+                
+                document.getElementById('reg-name').value = "";
+                document.getElementById('reg-email').value = "";
+                document.getElementById('reg-pass').value = "";
+            }).catch((error) => {
+                alert("Hata oluştu: " + error.message);
+            });
+        }
+
+        window.handleLogin = function() {
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-pass').value;
+
+            if (email === "" || pass === "") {
+                alert("Lütfen e-posta ve şifrenizi girin!");
+                return;
+            }
+
+            const cleanEmail = email.replace(/[.#$\[\]]/g, "_");
+            const dbRef = ref(database);
+
+            get(child(dbRef, `users/${cleanEmail}`)).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    if (userData.password === pass) {
+                        document.getElementById('auth-forms').style.display = "none";
+                        document.getElementById('user-display-name').innerText = userData.username;
+                        document.getElementById('welcome-panel').style.display = "block";
+                        if(analytics) { logEvent(analytics, 'login', { method: 'Firebase' }); }
+                        
+                        document.getElementById('login-email').value = "";
+                        document.getElementById('login-pass').value = "";
+                    } else {
+                        alert("Hatalı şifre!");
+                    }
+                } else {
+                    alert("Bu e-posta adresine ait kayıt bulunamadı!");
+                }
+            }).catch((error) => {
+                alert("Doğrulama hatası: " + error.message);
+            });
+        }
+
+        window.handleLogout = function() {
+            document.getElementById('welcome-panel').style.display = "none";
+            document.getElementById('auth-forms').style.display = "flex";
+        }
+    </script>
+
+    <script>
+        function openProgram(programName, elmnt) {
+            var i, programContent, tabLinks;
+            programContent = document.getElementsByClassName("program-content");
+            for (i = 0; i < programContent.length; i++) {
+                programContent[i].style.display = "none";
+            }
+            tabLinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tabLinks.length; i++) {
+                tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+            }
+            document.getElementById(programName).style.display = "block";
+            elmnt.className += " active";
+        }
+
+        function calculateBMI() {
+            var weight = document.getElementById('weight').value;
+            var height = document.getElementById('height').value;
+            
+            if (weight > 0 && height > 0) {
+                var heightInMeters = height / 100;
+                var bmi = (weight / (heightInMeters * heightInMeters)).toFixed(1);
+                
+                document.getElementById('bmi-value').innerText = bmi;
+                
+                var status = "";
+                if (bmi < 18.5) {
+                    status = "Zayıf 🦴";
+                } else if (bmi >= 18.5 && bmi <= 24.9) {
+                    status = "Normal / İdeal 💪";
+                } else if (bmi >= 25 && bmi <= 29.9) {
+                    status = "Fazla Kilolu 🏃‍♂️";
+                } else {
+                    status = "Obez ⚠️";
+                }
+                
+                document.getElementById('bmi-status').innerText = status;
+                document.getElementById('result-box').style.display = "block";
+            } else {
+                alert("Lütfen geçerli boy ve kilo değerleri giriniz!");
+            }
+        }
+    </script>
+</body>
+</html>
